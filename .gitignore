@@ -6,6 +6,8 @@ mvnw.cmd
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+/renren-generator
+**.vue
 
 ### STS ###
 .apt_generated
