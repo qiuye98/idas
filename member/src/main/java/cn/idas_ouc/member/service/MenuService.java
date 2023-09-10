@@ -1,5 +1,6 @@
 package cn.idas_ouc.member.service;
 
+import cn.idas_ouc.member.vo.AssginMenuVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import cn.idas_ouc.common.utils.PageUtils;
 import cn.idas_ouc.member.entity.MenuEntity;
@@ -23,5 +24,17 @@ public interface MenuService extends IService<MenuEntity> {
      * @return
      */
     List<MenuEntity> findNodes();
+
+    /**
+     * 根据角色获取授权权限数据
+     * @return
+     */
+    List<MenuEntity> findSysMenuByRoleId(Long roleId);
+
+    /**
+     * 保存角色权限
+     * @param  assginMenuVo
+     */
+    void doAssign(AssginMenuVo assginMenuVo);
 }
 

@@ -79,4 +79,8 @@ public class MenuEntity implements Serializable {
 	@TableField(exist = false)
 	private List<MenuEntity> children;
 
+	//是否选中
+	@TableField(exist = false)
+	private boolean isSelect;
+
 }

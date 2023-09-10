@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import cn.idas_ouc.member.vo.AssginMenuVo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,19 @@ public class MenuController {
     private MenuService menuService;
 
 
+    @ApiOperation(value = "根据角色获取菜单")
+    @GetMapping("toAssign/{roleId}")
+    public R toAssign(@PathVariable Long roleId) {
+        List<MenuEntity> list = menuService.findSysMenuByRoleId(roleId);
+        return R.ok().put("data",list);
+    }
+
+    @ApiOperation(value = "给角色分配权限")
+    @PostMapping("/doAssign")
+    public R doAssign(@RequestBody AssginMenuVo assignMenuVo) {
+        menuService.doAssign(assignMenuVo);
+        return R.ok();
+    }
 
     @ApiOperation(value = "获取菜单")
     @GetMapping("findNodes")
