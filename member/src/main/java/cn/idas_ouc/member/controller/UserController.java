@@ -1,15 +1,13 @@
 package cn.idas_ouc.member.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import cn.idas_ouc.member.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import cn.idas_ouc.member.entity.UserEntity;
 import cn.idas_ouc.member.service.UserService;
@@ -28,8 +26,43 @@ import cn.idas_ouc.common.utils.R;
 @RestController
 @RequestMapping("member/user")
 public class UserController {
+
     @Autowired
     private UserService userService;
+
+    @PostMapping(value = "/login")
+    R login(UserVo userVo){
+        userVo.setRoles(Arrays.asList("admin"));
+        userVo.setAvatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
+        userVo.setName("admin");
+        userVo.setIntroduction("I am a super administrator");
+        userVo.setToken("admin-token");
+        System.out.println(userVo);
+
+        // return R.ok().setData(userVo);
+        return R.ok().put("token","admin-token").put("data",userVo);
+    }
+
+    /**
+     * 获取用户信息
+     * @return
+     */
+    @GetMapping("info")
+    public R info() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("roles",Arrays.asList("admin"));
+        map.put("name","admin");
+        map.put("avatar","https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
+        return R.ok().put("data",map);
+    }
+    /**
+     * 退出
+     * @return
+     */
+    @PostMapping("logout")
+    public R logout(){
+        return R.ok();
+    }
 
     /**
      * 列表

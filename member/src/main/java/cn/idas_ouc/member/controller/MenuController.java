@@ -5,11 +5,7 @@ import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import cn.idas_ouc.member.entity.MenuEntity;
 import cn.idas_ouc.member.service.MenuService;
@@ -34,7 +30,7 @@ public class MenuController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     //@RequiresPermissions("member:menu:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = menuService.queryPage(params);
@@ -46,7 +42,7 @@ public class MenuController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     //@RequiresPermissions("member:menu:info")
     public R info(@PathVariable("id") Long id){
 		MenuEntity menu = menuService.getById(id);
@@ -79,7 +75,7 @@ public class MenuController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @GetMapping("/delete")
     //@RequiresPermissions("member:menu:delete")
     public R delete(@RequestBody Long[] ids){
 		menuService.removeByIds(Arrays.asList(ids));

@@ -4,12 +4,11 @@ import java.util.Arrays;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import cn.idas_ouc.member.entity.RoleEntity;
 import cn.idas_ouc.member.service.RoleService;
@@ -25,18 +24,30 @@ import cn.idas_ouc.common.utils.R;
  * @email wuboxin98@outlook.com
  * @date 2023-09-04 22:28:16
  */
+@Api(tags = "角色管理")
 @RestController
 @RequestMapping("member/role")
 public class RoleController {
     @Autowired
     private RoleService roleService;
 
+    @DeleteMapping("/remove/{id}")
+    //@RequiresPermissions("member:role:list")
+    public R remove(@PathVariable(value = "id") Long id){
+        roleService.removeByIds(Arrays.asList(id));
+
+        return R.ok();
+    }
+
+
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @ApiOperation("查询所有角色")
+    @GetMapping("/list")
     //@RequiresPermissions("member:role:list")
     public R list(@RequestParam Map<String, Object> params){
+        System.out.println("list param: " +params);
         PageUtils page = roleService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -46,7 +57,7 @@ public class RoleController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     //@RequiresPermissions("member:role:info")
     public R info(@PathVariable("id") Long id){
 		RoleEntity role = roleService.getById(id);
@@ -57,7 +68,7 @@ public class RoleController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     //@RequiresPermissions("member:role:save")
     public R save(@RequestBody RoleEntity role){
 		roleService.save(role);
@@ -68,7 +79,7 @@ public class RoleController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     //@RequiresPermissions("member:role:update")
     public R update(@RequestBody RoleEntity role){
 		roleService.updateById(role);
@@ -79,7 +90,7 @@ public class RoleController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @GetMapping("/delete")
     //@RequiresPermissions("member:role:delete")
     public R delete(@RequestBody Long[] ids){
 		roleService.removeByIds(Arrays.asList(ids));

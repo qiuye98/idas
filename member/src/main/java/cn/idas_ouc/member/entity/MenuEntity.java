@@ -1,5 +1,6 @@
 package cn.idas_ouc.member.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -24,7 +25,7 @@ public class MenuEntity implements Serializable {
 	/**
 	 * 编号
 	 */
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Long id;
 	/**
 	 * 所属上级

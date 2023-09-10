@@ -1,5 +1,6 @@
 package cn.idas_ouc.member.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableLogic;
@@ -24,7 +25,7 @@ public class UserEntity implements Serializable {
 	/**
 	 * 会员id
 	 */
-	@TableId
+	@TableId(type = IdType.AUTO)
 	private Long id;
 	/**
 	 * 用户名
