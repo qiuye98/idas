@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import cn.idas_ouc.member.vo.AssginRoleVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.annotations.Delete;
@@ -31,11 +32,25 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
+    @ApiOperation(value = "根据用户获取角色数据")
+    @GetMapping("/toAssign/{userId}")
+    public R toAssign(@PathVariable Long userId) {
+        Map<String, Object> roleMap = roleService.findRoleByUserId(userId);
+        return R.ok(roleMap);
+    }
+
+    @ApiOperation(value = "根据用户分配角色")
+    @PostMapping("/doAssign")
+    public R doAssign(@RequestBody AssginRoleVo assginRoleVo) {
+        roleService.doAssign(assginRoleVo);
+        return R.ok();
+    }
+
+    // 删除角色
     @DeleteMapping("/remove/{id}")
     //@RequiresPermissions("member:role:list")
     public R remove(@PathVariable(value = "id") Long id){
         roleService.removeByIds(Arrays.asList(id));
-
         return R.ok();
     }
 

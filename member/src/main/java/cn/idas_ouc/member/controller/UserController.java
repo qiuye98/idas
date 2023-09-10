@@ -6,6 +6,7 @@ import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import cn.idas_ouc.member.vo.UserVo;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,25 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @ApiOperation(value = "更新状态")
+    @GetMapping("updateStatus/{id}/{status}")
+    public R updateStatus(@PathVariable Long id, @PathVariable Integer status) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(id);
+        userEntity.setStatus(status);
+        userService.updateById(userEntity);
+        return R.ok();
+    }
+
+    // 删除某用户
+    @DeleteMapping("/remove/{id}")
+    //@RequiresPermissions("member:user:list")
+    public R remove(@PathVariable(value = "id") Long id){
+        userService.removeByIds(Arrays.asList(id));
+        return R.ok();
+    }
+
+    // 登录
     @PostMapping(value = "/login")
     R login(UserVo userVo){
         userVo.setRoles(Arrays.asList("admin"));
@@ -67,7 +87,7 @@ public class UserController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     //@RequiresPermissions("member:user:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = userService.queryPage(params);
@@ -79,7 +99,7 @@ public class UserController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     //@RequiresPermissions("member:user:info")
     public R info(@PathVariable("id") Long id){
 		UserEntity user = userService.getById(id);
@@ -90,7 +110,7 @@ public class UserController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     //@RequiresPermissions("member:user:save")
     public R save(@RequestBody UserEntity user){
 		userService.save(user);
@@ -101,7 +121,7 @@ public class UserController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     //@RequiresPermissions("member:user:update")
     public R update(@RequestBody UserEntity user){
 		userService.updateById(user);
@@ -112,7 +132,7 @@ public class UserController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @GetMapping("/delete")
     //@RequiresPermissions("member:user:delete")
     public R delete(@RequestBody Long[] ids){
 		userService.removeByIds(Arrays.asList(ids));
