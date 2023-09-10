@@ -5,11 +5,7 @@ import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import cn.idas_ouc.member.entity.UserRoleEntity;
 import cn.idas_ouc.member.service.UserRoleService;
@@ -34,7 +30,7 @@ public class UserRoleController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     //@RequiresPermissions("member:userrole:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = userRoleService.queryPage(params);
@@ -46,7 +42,7 @@ public class UserRoleController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     //@RequiresPermissions("member:userrole:info")
     public R info(@PathVariable("id") Long id){
 		UserRoleEntity userRole = userRoleService.getById(id);
@@ -57,7 +53,7 @@ public class UserRoleController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     //@RequiresPermissions("member:userrole:save")
     public R save(@RequestBody UserRoleEntity userRole){
 		userRoleService.save(userRole);
@@ -68,7 +64,7 @@ public class UserRoleController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     //@RequiresPermissions("member:userrole:update")
     public R update(@RequestBody UserRoleEntity userRole){
 		userRoleService.updateById(userRole);
@@ -79,7 +75,7 @@ public class UserRoleController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @GetMapping("/delete")
     //@RequiresPermissions("member:userrole:delete")
     public R delete(@RequestBody Long[] ids){
 		userRoleService.removeByIds(Arrays.asList(ids));

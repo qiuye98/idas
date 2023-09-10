@@ -1,13 +1,12 @@
 package cn.idas_ouc.member.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -76,5 +75,8 @@ public class MenuEntity implements Serializable {
 	 */
 	@TableLogic //逻辑删除
 	private Integer isDeleted;
+
+	@TableField(exist = false)
+	private List<MenuEntity> children;
 
 }

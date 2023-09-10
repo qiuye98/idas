@@ -5,11 +5,7 @@ import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import cn.idas_ouc.member.entity.RoleMenuEntity;
 import cn.idas_ouc.member.service.RoleMenuService;
@@ -34,7 +30,7 @@ public class RoleMenuController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     //@RequiresPermissions("member:rolemenu:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = roleMenuService.queryPage(params);
@@ -46,7 +42,7 @@ public class RoleMenuController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     //@RequiresPermissions("member:rolemenu:info")
     public R info(@PathVariable("id") Long id){
 		RoleMenuEntity roleMenu = roleMenuService.getById(id);
@@ -57,7 +53,7 @@ public class RoleMenuController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     //@RequiresPermissions("member:rolemenu:save")
     public R save(@RequestBody RoleMenuEntity roleMenu){
 		roleMenuService.save(roleMenu);
@@ -68,7 +64,7 @@ public class RoleMenuController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     //@RequiresPermissions("member:rolemenu:update")
     public R update(@RequestBody RoleMenuEntity roleMenu){
 		roleMenuService.updateById(roleMenu);
@@ -79,7 +75,7 @@ public class RoleMenuController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @GetMapping("/delete")
     //@RequiresPermissions("member:rolemenu:delete")
     public R delete(@RequestBody Long[] ids){
 		roleMenuService.removeByIds(Arrays.asList(ids));

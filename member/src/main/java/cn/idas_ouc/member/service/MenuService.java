@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import cn.idas_ouc.common.utils.PageUtils;
 import cn.idas_ouc.member.entity.MenuEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +17,11 @@ import java.util.Map;
 public interface MenuService extends IService<MenuEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    /**
+     * 菜单树形数据
+     * @return
+     */
+    List<MenuEntity> findNodes();
 }
 

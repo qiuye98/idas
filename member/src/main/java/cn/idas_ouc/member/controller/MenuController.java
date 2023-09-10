@@ -1,9 +1,11 @@
 package cn.idas_ouc.member.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +28,36 @@ import cn.idas_ouc.common.utils.R;
 public class MenuController {
     @Autowired
     private MenuService menuService;
+
+
+
+    @ApiOperation(value = "获取菜单")
+    @GetMapping("findNodes")
+    public R findNodes() {
+        List<MenuEntity> list = menuService.findNodes();
+        return R.ok().put("menuList",list);
+    }
+
+    @ApiOperation(value = "新增菜单")
+    @PostMapping("save")
+    public R save(@RequestBody MenuEntity permission) {
+        menuService.save(permission);
+        return R.ok();
+    }
+
+    @ApiOperation(value = "修改菜单")
+    @PutMapping("update")
+    public R updateById(@RequestBody MenuEntity permission) {
+        menuService.updateById(permission);
+        return R.ok();
+    }
+
+    @ApiOperation(value = "删除菜单")
+    @DeleteMapping("remove/{id}")
+    public R remove(@PathVariable Long id) {
+        menuService.removeById(id);
+        return R.ok();
+    }
 
     /**
      * 列表
@@ -53,18 +85,18 @@ public class MenuController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
-    //@RequiresPermissions("member:menu:save")
-    public R save(@RequestBody MenuEntity menu){
-		menuService.save(menu);
-
-        return R.ok();
-    }
+    // @RequestMapping("/save")
+    // //@RequiresPermissions("member:menu:save")
+    // public R save(@RequestBody MenuEntity menu){
+	// 	menuService.save(menu);
+    //
+    //     return R.ok();
+    // }
 
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     //@RequiresPermissions("member:menu:update")
     public R update(@RequestBody MenuEntity menu){
 		menuService.updateById(menu);

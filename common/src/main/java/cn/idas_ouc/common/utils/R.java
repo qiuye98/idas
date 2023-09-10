@@ -8,6 +8,7 @@
 
 package cn.idas_ouc.common.utils;
 
+import cn.idas_ouc.common.exception.ResultCodeEnum;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import org.apache.http.HttpStatus;
@@ -93,5 +94,8 @@ public class R<T> extends HashMap<String, Object> {
 		return this;
 	}
 
-
+	//失败
+	public static<T> R<T> fail() {
+		return R.error(ResultCodeEnum.FAIL.getCode(),ResultCodeEnum.FAIL.getMessage());
+	}
 }
