@@ -7,6 +7,10 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 查看日志
 
 spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.33.1:8848
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
