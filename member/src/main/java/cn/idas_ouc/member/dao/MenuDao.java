@@ -3,6 +3,9 @@ package cn.idas_ouc.member.dao;
 import cn.idas_ouc.member.entity.MenuEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 菜单表
@@ -13,5 +16,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface MenuDao extends BaseMapper<MenuEntity> {
-	
+
+    List<MenuEntity> findListByUserId(@Param("userId") Long userId);
 }

@@ -2,10 +2,19 @@ package cn.idas_ouc.member.controller;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import cn.idas_ouc.common.exception.GuiguException;
+import cn.idas_ouc.common.helper.JwtHelper;
+import cn.idas_ouc.common.utils.MD5;
+import cn.idas_ouc.member.service.MenuService;
+import cn.idas_ouc.member.vo.LoginVo;
+import cn.idas_ouc.member.vo.RouterVo;
 import cn.idas_ouc.member.vo.UserVo;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +24,7 @@ import cn.idas_ouc.member.service.UserService;
 import cn.idas_ouc.common.utils.PageUtils;
 import cn.idas_ouc.common.utils.R;
 
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -30,6 +40,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MenuService menuService;
 
     @ApiOperation(value = "更新状态")
     @GetMapping("updateStatus/{id}/{status}")
@@ -50,7 +63,7 @@ public class UserController {
     }
 
     // 登录
-    @PostMapping(value = "/login")
+/*     @PostMapping(value = "/login")
     R login(UserVo userVo){
         userVo.setRoles(Arrays.asList("admin"));
         userVo.setAvatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
@@ -61,20 +74,57 @@ public class UserController {
 
         // return R.ok().setData(userVo);
         return R.ok().put("token","admin-token").put("data",userVo);
+    } */
+
+    @ApiOperation(value = "登录")
+    @PostMapping("login")
+    public R login(@RequestBody LoginVo loginVo) {
+        UserEntity sysUser = userService.getOne(new LambdaQueryWrapper<UserEntity>().eq(UserEntity::getUsername,loginVo.getUsername()) );
+        if(null == sysUser) {
+            throw new GuiguException(201,"用户不存在");
+        }
+        System.out.println("加密后密码："+MD5.encrypt(loginVo.getPassword()));
+        System.out.println("数据库密码："+sysUser.getPassword());
+        System.out.println(sysUser);
+
+        if(!MD5.encrypt(loginVo.getPassword()).equals(sysUser.getPassword())) {
+            throw new GuiguException(201,"密码错误");
+        }
+        if(sysUser.getStatus().intValue() == 0) {
+            throw new GuiguException(201,"用户被禁用");
+        }
+
+        String token = JwtHelper.createToken(sysUser.getId(), sysUser.getUsername());
+
+        Map<String, Object> map = userService.getUserInfo(loginVo.getUsername());
+        map.put("token", token);
+        return R.ok().put("data",map);
     }
 
     /**
      * 获取用户信息
      * @return
      */
-    @GetMapping("info")
+/*     @GetMapping("info")
     public R info() {
         Map<String, Object> map = new HashMap<>();
         map.put("roles",Arrays.asList("admin"));
         map.put("name","admin");
         map.put("avatar","https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
         return R.ok().put("data",map);
+    } */
+
+    @ApiOperation(value = "获取用户信息")
+    @GetMapping("info")
+    public R info(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        String username = JwtHelper.getUsername(token);
+
+        Map<String, Object> map = userService.getUserInfo(username);
+
+        return R.ok().put("data",map);
     }
+
     /**
      * 退出
      * @return

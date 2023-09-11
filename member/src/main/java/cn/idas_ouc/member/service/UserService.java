@@ -16,5 +16,12 @@ import java.util.Map;
 public interface UserService extends IService<UserEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    /**
+     * 根据用户名获取用户登录信息
+     * @param username
+     * @return
+     */
+    Map<String, Object> getUserInfo(String username);
 }
 
