@@ -17,6 +17,7 @@
          <module>common</module>
          <module>member</module>
          <module>renren-generator</module>
+         <module>gateway</module>
      </modules>
 
 </project>

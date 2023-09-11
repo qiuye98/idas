@@ -1,0 +1,10 @@
+server:
+  port: 32200
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.33.1:8848
