@@ -94,7 +94,7 @@ public class RoleController {
     /**
      * 修改
      */
-    @PostMapping("/update")
+    @RequestMapping(value = "/update",method = {RequestMethod.PUT,RequestMethod.POST})
     //@RequiresPermissions("member:role:update")
     public R update(@RequestBody RoleEntity role){
 		roleService.updateById(role);
