@@ -1,9 +1,6 @@
 package cn.idas_ouc.member.controller;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -49,16 +46,19 @@ public class UserController {
 
     // 获得所有需要激活的用户
     @GetMapping("useracti")
-    public List<MemberActiVo> useracti(){
+    public List<MemberActiVo> useracti(@RequestParam Map<String, Object> params){
         List<UserEntity> userEntities = userService.list();
-        userEntities.forEach(System.out::println);
         List<MemberActiVo> memberActiVos = userEntities.stream().map(userEntity -> {
             MemberActiVo memberActiVo = new MemberActiVo();
             BeanUtils.copyProperties(userEntity, memberActiVo);
             // todo 获得年纪、学位信息
             return memberActiVo;
         }).collect(Collectors.toList());
-        memberActiVos.forEach(System.out::println);
+
+        // todo 改成分页查询
+        // PageUtils page = userService.queryPage(params);
+        // return R.ok().put("page", page);
+
         return memberActiVos;
     }
 

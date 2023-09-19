@@ -1,8 +1,7 @@
 package cn.idas_ouc.server.controller;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import cn.idas_ouc.common.vo.MemberActiVo;
@@ -46,8 +45,26 @@ public class ServerUserController {
     @GetMapping("/useracti")
     //@RequiresPermissions("server:serveruser:list")
     public R useracti(@RequestParam Map<String, Object> params){
-        List<MemberActiVo> actiVos = memberFeignService.useracti();
-
+        // 1. 获得所有可以激活服务器的用户
+        // 2. 查询 已经激活的所有用户列表
+        List<ServerUserEntity> userEntities = serverUserService.list();
+        Set<Long> idSet = userEntities.stream().map(item -> {
+            return item.getUserId();
+        }).collect(Collectors.toSet());
+        userEntities.forEach(System.out::println);
+        // 3. 对更新所有可激活用户列表中的，激活状态
+        List<MemberActiVo> actiVos = memberFeignService.useracti(params);
+        actiVos.forEach(System.out::println);
+        actiVos = actiVos.stream().map(item -> {
+            if (idSet.contains(item.getId())) {
+                item.setActi_status(1);
+            } else {
+                item.setActi_status(0);
+            }
+            return item;
+        }).collect(Collectors.toList());
+        actiVos.forEach(System.out::println);
+        PageUtils page = new PageUtils(actiVos,actiVos.size(),500,1);
         return R.ok().put("useracti", actiVos);
     }
 

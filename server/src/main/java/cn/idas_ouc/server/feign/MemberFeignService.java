@@ -25,5 +25,5 @@ public interface MemberFeignService {
 
     // 获得所有需要激活的用户
     @GetMapping("/member/user/useracti")
-    public List<MemberActiVo> useracti();
+    public List<MemberActiVo> useracti(@RequestParam Map<String, Object> params);
 }
