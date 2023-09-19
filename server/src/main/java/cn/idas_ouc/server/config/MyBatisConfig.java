@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement        //开启使用
-@MapperScan("cn.idas_ouc.member.dao")
+@MapperScan("cn.idas_ouc.server.dao")
 public class MyBatisConfig {
 
     //引入分页插件

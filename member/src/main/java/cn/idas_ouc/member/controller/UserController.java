@@ -4,11 +4,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import cn.idas_ouc.common.exception.GuiguException;
 import cn.idas_ouc.common.helper.JwtHelper;
 import cn.idas_ouc.common.utils.MD5;
+import cn.idas_ouc.common.vo.MemberActiVo;
 import cn.idas_ouc.member.service.MenuService;
 import cn.idas_ouc.member.vo.LoginVo;
 import cn.idas_ouc.member.vo.RouterVo;
@@ -16,6 +18,7 @@ import cn.idas_ouc.member.vo.UserVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +46,21 @@ public class UserController {
 
     @Autowired
     private MenuService menuService;
+
+    // 获得所有需要激活的用户
+    @GetMapping("useracti")
+    public List<MemberActiVo> useracti(){
+        List<UserEntity> userEntities = userService.list();
+        userEntities.forEach(System.out::println);
+        List<MemberActiVo> memberActiVos = userEntities.stream().map(userEntity -> {
+            MemberActiVo memberActiVo = new MemberActiVo();
+            BeanUtils.copyProperties(userEntity, memberActiVo);
+            // todo 获得年纪、学位信息
+            return memberActiVo;
+        }).collect(Collectors.toList());
+        memberActiVos.forEach(System.out::println);
+        return memberActiVos;
+    }
 
     @ApiOperation(value = "更新状态")
     @GetMapping("updateStatus/{id}/{status}")

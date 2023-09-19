@@ -1,9 +1,12 @@
 package cn.idas_ouc.server.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import cn.idas_ouc.common.vo.MemberActiVo;
+import cn.idas_ouc.server.feign.MemberFeignService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +36,20 @@ import cn.idas_ouc.common.utils.R;
 public class ServerUserController {
     @Autowired
     private ServerUserService serverUserService;
+
+    @Autowired
+    private MemberFeignService memberFeignService;
+
+    /**
+     * 获得所有用户列表,并判断是否激活serveruser
+     */
+    @GetMapping("/useracti")
+    //@RequiresPermissions("server:serveruser:list")
+    public R useracti(@RequestParam Map<String, Object> params){
+        List<MemberActiVo> actiVos = memberFeignService.useracti();
+
+        return R.ok().put("useracti", actiVos);
+    }
 
     /**
      * 列表
