@@ -18,6 +18,7 @@
          <module>member</module>
          <module>renren-generator</module>
          <module>gateway</module>
+         <module>server</module>
      </modules>
 
 </project>

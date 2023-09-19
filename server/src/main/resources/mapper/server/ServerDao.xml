@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.idas_ouc.server.dao.ServerDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.idas_ouc.server.entity.ServerEntity" id="serverMap">
+        <result property="id" column="id"/>
+        <result property="code" column="code"/>
+        <result property="description" column="description"/>
+        <result property="admin" column="admin"/>
+        <result property="password" column="password"/>
+        <result property="sshSchIp" column="ssh_sch_ip"/>
+        <result property="sshSchPort" column="ssh_sch_port"/>
+        <result property="sshOutIp" column="ssh_out_ip"/>
+        <result property="sshOutPort" column="ssh_out_port"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDeleted" column="is_deleted"/>
+    </resultMap>
+
+
+</mapper>

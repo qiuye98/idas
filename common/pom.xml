@@ -78,13 +78,13 @@
             <version>2.0.1.Final</version>
         </dependency>
 
-        <!--nacos 服务注册发现-->
+        <!-- nacos-discovery 服务注册发现 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
 
-        <!--远程调用-->
+        <!-- penfeign 远程调用 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
