@@ -5,7 +5,7 @@ mvnw.cmd
 **/.mvn/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
-!**/src/test/**/target/
+!**/src/test/**
 /renren-generator
 **.vue
 

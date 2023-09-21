@@ -25,3 +25,8 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+
+logging:
+  level:
+    cn.cn.idas_ouc: info
+
